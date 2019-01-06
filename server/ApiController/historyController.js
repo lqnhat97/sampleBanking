@@ -1,4 +1,4 @@
-var express = require('express');
+var express = require('express'),
     historyRepos = require('../Repos/historyRepos.js');
 var router = express.Router();
 
@@ -19,7 +19,7 @@ router.get('/',(req,res)=>{
 })
 
 router.get('/historyBySoTaiKhoan',(req,res)=>{
-    historyRepos.gethistoryBySoTaiKhoan(req.query.soTaiKhoan).then(row => {
+    historyRepos.getHistoryBySoTaiKhoan(req.query.soTaiKhoan).then(row => {
         if (row.length > 0) {
             res.json(row);
         } else {

@@ -11,7 +11,7 @@ exports.insertNewHistories = (receiver, sender,requestBody) =>{
     return db.insert(sql);
 }
 
-exports.gethistoryBySoTaiKhoan = (param) =>{
+exports.getHistoryBySoTaiKhoan = (param) =>{
     var sql = `select * from history where stkSenter = '${param}' or stkReceiver = '${param}';`
     return db.load(sql);
 }
