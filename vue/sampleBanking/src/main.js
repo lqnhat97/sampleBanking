@@ -2,7 +2,6 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import Menu from './components/Menu'
 import router from './router'
 
 Vue.config.productionTip = false
@@ -15,13 +14,4 @@ new Vue({
     App
   },
   template: '<App/>'
-})
-
-new Vue({
-  el: '#menu',
-  router,
-  components: {
-    Menu
-  },
-  template: '<Menu/>'
 })
