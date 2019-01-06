@@ -53,7 +53,7 @@ import axios from 'axios'
             console.log(user);
             if(user.data.refresh_token){
               localStorage.setItem('user', JSON.stringify(user));
-              this.$router.replace('/home')
+              this.$router.replace('/home');
             }
             else{
               $("#login_err").show();
@@ -62,6 +62,11 @@ import axios from 'axios'
         }
       }
     },
+    beforeMount(){
+      if(localStorage.getItem("user") != null){
+        this.$router.replace('/home');
+      }
+    }
   }
   require('@/assets/css/login.css')
 
