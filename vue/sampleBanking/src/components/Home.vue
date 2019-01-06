@@ -52,8 +52,14 @@
         </div>
       </div>
       <div v-if="selected != ''">
-        <home-page v-show="activeTab = 'Home'" :stk="payAccount.soTaiKhoan" :sodu="payAccount.soDu">
+        <home-page v-if="activeTab == 1" :stk="payAccount.soTaiKhoan" :sodu="payAccount.soDu">
         </home-page>
+        <history-page v-if="activeTab == 2" :stk="payAccount.soTaiKhoan">
+        </history-page>
+        <transfer-page v-if="activeTab == 4" :stk="payAccount.soTaiKhoan" :sodu="payAccount.soDu">
+        </transfer-page>
+        <directory-page v-if="activeTab == 3" :id="id">
+        </directory-page>
       </div>
       <div v-else>
         <hello-page></hello-page>
@@ -81,6 +87,9 @@
 
 import homePageCpn from './HomePage.vue';
 import helloPageCpn from './HelloPage.vue';
+import transferPageCpn from './TransferPage.vue';
+import directoryPageCpn from './DirectoryPage.vue';
+import historyPageCpn from './HistoryPage.vue';
 
   export default {
     name: 'home',
@@ -122,12 +131,17 @@ import helloPageCpn from './HelloPage.vue';
       },
       goTransfer() {
         if(this.selected != '')
+        {
+          alert("a");
           this.activeTab = 4
+        }
+          
         else
           alert("Vui lòng chọn tài khoản thanh toán!")
       },
       goClose() {
         if(this.selected != '')
+        
           this.activeTab = 5
         else
           alert("Vui lòng chọn tài khoản thanh toán!")
@@ -145,7 +159,10 @@ import helloPageCpn from './HelloPage.vue';
 
     components: {
         homePage: homePageCpn,
-        helloPage: helloPageCpn
+        helloPage: helloPageCpn,
+        directoryPage: directoryPageCpn,
+        historyPage: historyPageCpn,
+        transferPage: transferPageCpn
     }
   }
   require('@/assets/css/home.css')
