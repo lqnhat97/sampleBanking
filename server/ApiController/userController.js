@@ -14,7 +14,7 @@ router.post('/', (req, res) => {
                 authRepos.insertAccountRefreshToken(userEntity.idUser, rfToken).then(value => {
                     var thisAccountPaymentAccount;
                     paymentAccoutntRepo.getPaymentAccountByIdUser(userEntity).then(rows => {
-                        console.log(rows);
+                        
                         thisAccountPaymentAccount = rows;
                         res.json({
                             auth: true,

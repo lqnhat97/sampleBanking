@@ -1,5 +1,6 @@
 var express = require('express'),
-    historyRepos = require('../Repos/historyRepos.js');
+    historyRepos = require('../Repos/historyRepos.js'),
+    moment=require('moment');
 var router = express.Router();
 
 router.get('/',(req,res)=>{

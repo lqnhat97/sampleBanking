@@ -5,6 +5,7 @@ exports.getAllPaymentAccount = () => {
     return db.load(sql)
 }
 
+
 exports.getPaymentAccountByStk = (body) => {
 
     var sql = `select * from payment_account where soTaiKhoan = '${body.soTaiKhoan}';`;
