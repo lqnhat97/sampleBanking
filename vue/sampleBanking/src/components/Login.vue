@@ -10,12 +10,14 @@
         <form id="Login">
           <div class="form-group">
             <input type="text" class="form-control" id="inputUserName" placeholder="Tài khoản">
+            <div v-show="submitted && !username" class="invalid-feedback">Username is required</div>
           </div>
           <div class="form-group">
-            <input type="password" class="form-control" id="inputPassword" placeholder="Mật khẩu"> 
+            <input type="password" class="form-control" id="inputPassword" placeholder="Mật khẩu">
+            <div v-show="submitted && !username" class="invalid-feedback">Username is required</div>
           </div>
           <div class="g-recaptcha" data-sitekey="6LenKYcUAAAAAOIM9uXsEkZqt3k1lOsTzSaf7Iy8"></div>
-          <button type="submit" class="btn btn-primary">Đăng nhập</button>
+          <button type="submit" @click="checkCaptcha" class="btn btn-primary">Đăng nhập</button>
 
         </form>
       </div>
@@ -24,41 +26,28 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+
   export default {
     name: 'Login',
     data() {
       return {
-        msg: 'Welcome to Your Vue.js App'
+        username: '',
+        password: '',
+        submitted: false
+      }
+    },
+    methods: {
+      checkCaptcha(e) {
+        e.preventDefault();
+        if (grecaptcha.getResponse() == "") {
+          alert("You can't proceed!");
+        } else {
+          alert("Thank you");
+        }
       }
     }
   }
-
-</script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-  h1,
-  h2 {
-    font-weight: normal;
-  }
-
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-
-  li {
-    display: inline-block;
-    margin: 0 10px;
-  }
-
-  a {
-    color: #42b983;
-  }
-
-</style>
-<script>
- 
-require('@/assets/css/login.css')
+  require('@/assets/css/login.css')
 
 </script>
