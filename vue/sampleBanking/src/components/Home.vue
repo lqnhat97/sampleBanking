@@ -57,6 +57,8 @@
           </home-page>
           <history-page v-if="activeTab == 2" :stk="payAccount.soTaiKhoan">
           </history-page>
+          <close-page v-if="activeTab == 5" :stk="payAccount.soTaiKhoan">
+          </close-page>
           <transfer-page v-if="activeTab == 4" :stk="payAccount.soTaiKhoan" :sodu="payAccount.soDu">
           </transfer-page>
           <directory-page v-if="activeTab == 3" :id="id">
@@ -103,6 +105,7 @@
   import creAccPageCpn from './CreAccPage.vue';
   import queryPageCpn from './QueryPage.vue';
   import rechargePageCpn from './Recharge.vue';
+  import closePageCpn from './ClosePage.vue';
 
   export default {
     name: 'home',
@@ -178,7 +181,8 @@
       creAccPage: creAccPageCpn,
       creAccPayPage: creAccPayPageCpn,
       queryPage: queryPageCpn,
-      rechargePage: rechargePageCpn
+      rechargePage: rechargePageCpn,
+      closePage: closePageCpn
     }
   }
   require('@/assets/css/home.css')

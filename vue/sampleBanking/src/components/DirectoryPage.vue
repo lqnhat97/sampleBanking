@@ -14,10 +14,10 @@
                 <th>Xóa</th>
               </thead>
               <tbody>
-                <tr>
-                  <td>Mohsin</td>
-                  <td>Irshad</td>
-                  <td>CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan</td>
+                <tr v-for="el in directory" v-bind:key="el.idRootUser">
+                  <td>{{el.stkElementUser}}</td>
+                  <td>{{el.elementUserName}}</td>
+                  <td>{{(el.idBank==777)?'iBank':((el.idBank==999)?'NBank':'PPNBank')}}</td>
                   <td>
                     <p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs"
                         data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p>
@@ -34,6 +34,7 @@
         </div>
       </div>
     </div>
+
     <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">

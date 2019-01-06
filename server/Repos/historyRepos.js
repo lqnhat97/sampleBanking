@@ -5,9 +5,9 @@ exports.getAllHistories = ()=> {
     return db.load(sql);
 }
 
-exports.insertNewHistories = (receiver, sender,requestBody) =>{
+exports.insertNewHistories = (receiver, sender,requestBody,tradingTime) =>{
     var sql = `insert into history(stkSenter,idBank,stkReceiver,tradingTime,amount,transactionFee,content,typeFee)
-     values('${sender.soTaiKhoan}',null,'${receiver.soTaiKhoan}','${requestBody.tradingTime}',${requestBody.amount},${requestBody.transactionFee},'${requestBody.content}',${requestBody.typeFee});`
+     values('${sender.soTaiKhoan}','${requestBody.idBank}','${receiver.soTaiKhoan}','${tradingTime}',${requestBody.amount},${requestBody.transactionFee},'${requestBody.content}',${requestBody.typeFee});`
     return db.insert(sql);
 }
 

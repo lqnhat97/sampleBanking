@@ -14,16 +14,16 @@
                 <th>Phí tổn</th>
                 <th>Nội dung chuyển</th>
                 <th>Loại phí chuyển tiền</th>
-              </thead>
+              </thead>  
               <tbody>
-                <tr>
-                  <td>Mohsin</td>
-                  <td>Irshad</td>
-                  <td>CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan</td>
-                  <td>isometric.mohsin@gmail.com</td>
-                  <td>+923335586757</td>
-                  <td>noi dung</td>
-                  <td>noi dung</td>
+                <tr v-for="el in history" v-bind:key="el.idHistory">
+                  <td>{{el.stkSenter}}</td>
+                  <td>{{el.stkReceiver}}</td>
+                  <td>{{el.tradingTime}}</td>
+                  <td>{{el.amount}}</td>
+                  <td>{{el.transactionFee}}</td>
+                  <td>{{el.content}}</td>
+                  <td>{{(el.typeFee)?'SenterPay':'ReceiverPay'}}</td>
                 </tr>
               </tbody>
             </table>
