@@ -25,13 +25,13 @@
           <router-link v-show="role == 0" v-on:click="goHome" to="/home">
             Home
           </router-link>
-          <router-link v-show="role == 0" to="/home">
+          <router-link v-show="role == 0" v-on:click="goHistory" to="/home">
             Lịch Sử
           </router-link>
-          <router-link v-show="role == 0" to="/home">
+          <router-link v-show="role == 0" v-on:click="goContact" to="/home">
             Danh bạ
           </router-link>
-          <router-link v-show="role == 0" to="/home">
+          <router-link v-show="role == 0" v-on:click="goClose" to="/home">
             Đóng tài khoản
           </router-link>
           <router-link v-show="role == 1" to="/home">
@@ -48,9 +48,13 @@
           </router-link>
         </div>
       </div>
-      <div>
-        <home-page :stk="payAccount.soTaiKhoan" :sodu="payAccount.soDu"></home-page>
+      <div v-if="selected != ''">
+        <home-page v-show="activeTab = 'Home'" :stk="payAccount.soTaiKhoan" :sodu="payAccount.soDu">
+        </home-page>
       </div>
+      <div v-else>
+        <hello-page></hello-page>
+        </div>
     </div>
 
     <div v-else>
@@ -73,6 +77,7 @@
 <script>
 
 import homePageCpn from './HomePage.vue';
+import helloPageCpn from './HelloPage.vue';
 
   export default {
     name: 'home',
@@ -101,12 +106,20 @@ import homePageCpn from './HomePage.vue';
         });
       },
       goHome() {
-          
-      }
+        activeTab = 'Home'
+      },
+      goHistory() {
+        activeTab = 'History'
+      },
+      goContact() {
+        activeTab = 'Contact'
+      },
+
     },
 
     components: {
-        homePage: homePageCpn
+        homePage: homePageCpn,
+        helloPage: helloPageCpn
     }
   }
   require('@/assets/css/home.css')

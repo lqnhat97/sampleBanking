@@ -1,4 +1,12 @@
 .subContainer{
     background-color: white;
     height: 400px;
+    padding: 20%;
+}
+
+.info{
+    padding: 10%;
+    background-color: blanchedalmond;
+    font-size: 15pt;
+    
 }

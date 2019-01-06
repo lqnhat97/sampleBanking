@@ -15,12 +15,4 @@ new Vue({
     App
   },
   template: '<App/>'
-}),
-new Vue({
-  el: '#tabcontain',
-  router,
-  components: {
-    HomePage
-  },
-  template: '<HomePage/>'
 })
