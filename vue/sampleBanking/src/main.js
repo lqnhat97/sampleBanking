@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import HomePage from './components/HomePage'
 import router from './router'
 
 Vue.config.productionTip = false
@@ -14,4 +15,12 @@ new Vue({
     App
   },
   template: '<App/>'
+}),
+new Vue({
+  el: '#tabcontain',
+  router,
+  components: {
+    HomePage
+  },
+  template: '<HomePage/>'
 })

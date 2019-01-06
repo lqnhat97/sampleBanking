@@ -45,8 +45,8 @@ import axios from 'axios'
         if (grecaptcha.getResponse() == "") {
           $("#captcha_err").show();
         } else {
-          axios.post('http://192.168.0.181:8088/api/user',{
-            role:1,
+          axios.post('http://192.168.0.142:8088/api/user',{
+            role:0,
             userName:this.username,
             passwords:this.password
           }).then(user=>{
