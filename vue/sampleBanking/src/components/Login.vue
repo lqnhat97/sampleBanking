@@ -1,24 +1,25 @@
 <template>
   <div class="container">
-    <h1 class="form-heading">login Form</h1>
+    <h1 class="form-heading">INTERNET BANKING</h1>
     <div class="login-form">
       <div class="main-div">
         <div class="panel">
-          <h2>INTERNET BANKING</h2>
+          <h2>ĐĂNG NHẬP</h2>
           <p>Vui lòng nhập tài khoản và mật khẩu</p>
         </div>
         <form id="Login">
           <div class="form-group">
-            <input type="text" class="form-control" id="inputUserName" placeholder="Tài khoản">
-            <div v-show="submitted && !username" class="invalid-feedback">Username is required</div>
+            <input type="text" v-model="username" class="form-control" id="inputUserName" placeholder="Tài khoản" :class="{ 'is-invalid': submitted && !username }">
+            <div v-show="submitted && !username" class="invalid-feedback">Yêu cầu nhập tài khoản!</div>
           </div>
           <div class="form-group">
-            <input type="password" class="form-control" id="inputPassword" placeholder="Mật khẩu">
-            <div v-show="submitted && !username" class="invalid-feedback">Username is required</div>
+            <input type="password" v-model="password" class="form-control" id="inputPassword" placeholder="Mật khẩu" :class="{ 'is-invalid': submitted && !password }" >
+            <div v-show="submitted && !password" class="invalid-feedback">Yêu cầu nhập mật khẩu!</div>
           </div>
           <div class="g-recaptcha" data-sitekey="6LenKYcUAAAAAOIM9uXsEkZqt3k1lOsTzSaf7Iy8"></div>
+            <div id="captcha_err" class="invalid-feedback">Yêu cầu nhập captcha!</div>
           <button type="submit" @click="checkCaptcha" class="btn btn-primary">Đăng nhập</button>
-
+            <div id="login_err" class="invalid-feedback">Sai tên đăng nhập hoặc mật khẩu!</div>
         </form>
       </div>
     </div>
@@ -27,7 +28,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-
+import axios from 'axios'
   export default {
     name: 'Login',
     data() {
@@ -40,11 +41,30 @@ import { mapState, mapActions } from 'vuex'
     methods: {
       checkCaptcha(e) {
         e.preventDefault();
+        this.submitted = true;
         if (grecaptcha.getResponse() == "") {
-          alert("You can't proceed!");
+          $("#captcha_err").show();
         } else {
-          alert("Thank you");
+          axios.post('http://192.168.0.181:8088/api/user',{
+            role:1,
+            userName:this.username,
+            passwords:this.password
+          }).then(user=>{
+            console.log(user);
+            if(user.data.refresh_token){
+              localStorage.setItem('user', JSON.stringify(user));
+              this.$router.replace('/home');
+            }
+            else{
+              $("#login_err").show();
+            }
+          })
         }
+      }
+    },
+    beforeMount(){
+      if(localStorage.getItem("user") != null){
+        this.$router.replace('/home');
       }
     }
   }
