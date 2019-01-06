@@ -1,4 +1,4 @@
-var express = require('express');
+var express = require('express'),
     accountRepos = require('../Repos/accountRepos');
 var router = express.Router();
 
@@ -18,6 +18,15 @@ router.get('/',(req,res)=>{
     })
 })
 
-
+router.post('/createAccount',(req,res)=>{
+    accountRepos.insertAccount(req.body).then(()=>{
+        res.statusCode = 200;
+        res.end('Done');
+    }).catch(err => {
+        console.log(err);
+        res.statusCode = 500;
+        res.end('View error log on console');
+    })
+})
 
 module.exports = router;
