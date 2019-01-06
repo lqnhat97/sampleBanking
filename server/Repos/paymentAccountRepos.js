@@ -5,6 +5,10 @@ exports.getAllPaymentAccount = () => {
     return db.load(sql)
 }
 
+exports.getAccountInfoFromStk = (body)=>{
+    var sql = `select a.userName,a.email,a.dienthoai from payment_account p,account a where p.idUser = a.idUser and p.soTaiKhoan=${body};`;
+    return db.load(sql)
+}
 
 exports.getPaymentAccountByStk = (body) => {
 

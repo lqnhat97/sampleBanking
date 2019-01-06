@@ -91,4 +91,20 @@ router.get('/',(req,res)=>{
         }
     })
 })
+
+router.get('/InfoByStk',(req,res)=>{
+    console.log(req.body);
+    paymentAccountRepos.getAccountInfoFromStk(req.query.soTaiKhoan).then(rows=>{
+        if(rows.length>0){
+            res.json(rows);
+        }
+        else{
+            res.statusCode = 400;
+            res.end('Error');
+        }
+    }).catch(err=>{
+        res.statusCode = 500;
+        res.end('Error');
+    })
+})
 module.exports = router;

@@ -106,6 +106,8 @@ insert into bank values (888,'BankN','042d14e0fb73f3733448967618107fac7ba9bb5809
 insert into bank values (777,'MyEBank','04d7479d0bd963294e302f721f2c76f88ece0da3c378e38f9e5e9a42d5fb56d1f3a457c74dae25b2b35247a5c1a0b3d12eb48e61f87354753b80bcc91c9fc5401f','');
 update bank set name = 'PPNBank', address = '045de212ef435d95088f430ab5c8bbf16967121bd7384b5393b09377ddf689194de456edae1993753c7f5cce76c1d5d54f75c61b4796bebcc8236aaf7b97593654' where idBank = 999;
 update account set email = 'vinhhoang51@gmail.com' where idUser = 3;
+update account set email = 'chauhoagnlong@gmail.com' where idUser = 2;
+update account set email = 'lqnhat97@gmail.com' where idUser = 1;
 select * from payment_account;	
 select * from token;
 select * from user_token;
