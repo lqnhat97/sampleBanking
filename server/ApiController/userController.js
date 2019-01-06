@@ -1,5 +1,6 @@
 var express = require('express');
 var userRepos = require('../Repos/userRepos');
+var paymentAccoutntRepo = require('../Repos/paymentAccountRepos')
 var authRepos = require('../Repos/authRepos');
 var router = express.Router();
 
@@ -11,12 +12,19 @@ router.post('/', (req, res) => {
                 var acToken = authRepos.generateAccessToken(userEntity);
                 var rfToken = authRepos.generateRefreshToken();
                 authRepos.insertAccountRefreshToken(userEntity.idUser, rfToken).then(value => {
-                    res.json({
-                        auth: true,
-                        user: userEntity,
-                        role: req.body.role,
-                        access_token: acToken,
-                        refresh_token: rfToken
+                    var thisAccountPaymentAccount;
+                    paymentAccoutntRepo.getPaymentAccountByIdUser(userEntity).then(rows => {
+                        console.log(rows);
+                        thisAccountPaymentAccount = rows;
+                        res.json({
+                            auth: true,
+                            user: userEntity,
+                            role: req.body.role,
+                            paymentAccount: thisAccountPaymentAccount,
+                            id:userEntity.idUser,
+                            access_token: acToken,
+                            refresh_token: rfToken
+                        });
                     });
                 }).catch(err => {
                     console.log(err);
@@ -45,6 +53,7 @@ router.post('/', (req, res) => {
                         auth: true,
                         user: userEntity,
                         role: userEntity.typeEmployees,
+                        id:userEntity.idEmployees,
                         access_token: acToken,
                         refresh_token: rfToken
                     });

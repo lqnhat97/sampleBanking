@@ -10,7 +10,10 @@ var express = require('express'),
     accountController = require('./ApiController/accountController'),
     historyController = require('./ApiController/historyController'),
     transferController = require('./ApiController/transferController'),
-    paymentAccountController = require('./ApiController/paymentAccountController');
+    paymentAccountController = require('./ApiController/paymentAccountController'),
+    otpMailController = require ('./ApiController/optMailController');
+
+
 var app = express();
 app.use(morgan('dev'));
 app.use(cors());
@@ -21,11 +24,12 @@ var staticDir = express.static(
 app.use(staticDir);
 
 app.use('/api/user',userController);
-app.use('/api/directory'/*,verifyAccessToken*/,directoryController);
-app.use('/api/account'/*,verifyAccessToken*/,accountController);
-app.use('/api/history'/*,verifyAccessToken*/,historyController );
-app.use('/api/transfer'/*,verifyAccessToken */,transferController);
-app.use('/api/paymentAccount'/*,,verifyAccessToken*/,paymentAccountController);
+app.use('/api/directory',verifyAccessToken,directoryController);
+app.use('/api/account',verifyAccessToken,accountController);
+app.use('/api/history',verifyAccessToken,historyController );
+app.use('/api/transfer',verifyAccessToken ,transferController);
+app.use('/api/paymentAccount',verifyAccessToken,paymentAccountController);
+app.use('/api/otpmail' ,verifyAccessToken ,otpMailController);
 const port = process.env.PORT || 8088;
 app.listen(port,'0.0.0.0', () => {
     console.log(`API running on port ${port}`);
