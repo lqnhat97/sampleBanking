@@ -1,10 +1,10 @@
 <template>
   <div class="container">
-    <h1 class="form-heading">login Form</h1>
+    <h1 class="form-heading">INTERNET BANKING</h1>
     <div class="login-form">
       <div class="main-div">
         <div class="panel">
-          <h2>INTERNET BANKING</h2>
+          <h2>ĐĂNG NHẬP</h2>
           <p>Vui lòng nhập tài khoản và mật khẩu</p>
         </div>
         <form id="Login">
@@ -19,7 +19,7 @@
           <div class="g-recaptcha" data-sitekey="6LenKYcUAAAAAOIM9uXsEkZqt3k1lOsTzSaf7Iy8"></div>
             <div id="captcha_err" class="invalid-feedback">Yêu cầu nhập captcha!</div>
           <button type="submit" @click="checkCaptcha" class="btn btn-primary">Đăng nhập</button>
-
+            <div id="login_err" class="invalid-feedback">Sai tên đăng nhập hoặc mật khẩu!</div>
         </form>
       </div>
     </div>
@@ -53,9 +53,10 @@ import axios from 'axios'
             console.log(user);
             if(user.data.refresh_token){
               localStorage.setItem('user', JSON.stringify(user));
+              this.$router.replace('/home')
             }
             else{
-              
+              $("#login_err").show();
             }
           })
         }
