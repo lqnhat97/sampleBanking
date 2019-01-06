@@ -1,15 +1,19 @@
 <template>
   <div class="subContainer">
-    <div class="card">
-        <div class="card-body">
-      <p class="card-text">
-        Số tài khoản: {{stk}}
-      </p>
-      <p class="card-text">
-        Số dư: {{sodu}}
-      </p>
-        </div>
-    </div>
+    <table class="table table-sm">
+        <thead>
+          <tr>
+            <th>Số tài khoản</th>
+            <th>Số dư</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{stk}}</td>
+            <td>{{sodu}}</td>
+          </tr>
+        </tbody>
+      </table>
   </div>
 </template>
 

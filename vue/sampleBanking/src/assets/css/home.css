@@ -37,8 +37,9 @@ body {
     overflow: hidden;
   }
   
-  .righttopnav a {
-    float: right;
+  .righttopnav p {
+    text-align: left;
+    display: inline-block;
     color: blue;
     text-align: center;
     padding: 14px 16px;
@@ -46,6 +47,10 @@ body {
     font-size: 17px;
   }
   
+  .righttopnav select {
+    display: inline-block;
+  }
+
   .righttopnav a:hover {
     color: black;
   }

@@ -6,19 +6,19 @@
     <div v-if="id != null">
       <div>
         <div class="righttopnav">
-          <router-link to="/">
-            <span v-on:click="logOut">Đăng xuất</span>
-          </router-link>
-          <router-link v-show="role == 0" to="/home">
-            <select v-model="selected" v-on:change="onChangeSTK" aria-placeholder="Tài khoản thanh toán">
-              <option v-for="payAccount in payAccounts" v-bind:key="payAccount.soTaiKhoan" v-bind:value="payAccount.soTaiKhoan" selected>
-                {{payAccount.soTaiKhoan}}
-              </option>
-            </select>
-          </router-link> 
-          <router-link to="/home" aria-disabled="false">
-            Xin chào <span style="color:red">{{userName}}</span>
-          </router-link>
+          <div class="form-row align-items-center" style="float:right;">
+            <div class="col-auto my-1">
+              <select v-model="selected" v-on:change="onChangeSTK" aria-placeholder="Tài khoản thanh toán" class="custom-select mr-sm-2">
+                <option v-for="payAccount in payAccounts" v-bind:key="payAccount.soTaiKhoan" v-bind:value="payAccount.soTaiKhoan">
+                  {{payAccount.soTaiKhoan}}
+                </option>
+              </select>
+            </div>
+            <button type="button" class="btn btn-link" v-on:click="logOut" style="float:right;">Đăng xuất</button>
+          </div>
+          <div style="float:right;">
+            <p>Xin chào <span style="color:red">{{userName}}</span></p>
+          </div>
         </div>
 
         <div class="lefttopnav">
