@@ -7,7 +7,7 @@
       <div>
         <div class="righttopnav">
           <div class="form-row align-items-center" style="float:right;">
-            <div class="col-auto my-1">
+            <div v-if="role==0" class="col-auto my-1">
               <select v-model="selected" v-on:change="onChangeSTK" aria-placeholder="Tài khoản thanh toán" class="custom-select mr-sm-2">
                 <option v-for="payAccount in payAccounts" v-bind:key="payAccount.soTaiKhoan" v-bind:value="payAccount.soTaiKhoan">
                   {{payAccount.soTaiKhoan}}
@@ -22,28 +22,28 @@
         </div>
 
         <div class="lefttopnav">
-          <router-link v-show="role == 0"  to="/home">
+          <router-link v-show="role == 0" to="/home">
             <span v-on:click="goHome">Home</span>
           </router-link>
-          <router-link v-show="role == 0"  to="/home">
+          <router-link v-show="role == 0" to="/home">
             <span v-on:click="goTransfer">Chuyển khoản</span>
           </router-link>
-          <router-link v-show="role == 0"  to="/home">
+          <router-link v-show="role == 0" to="/home">
             <span v-on:click="goHistory">Lịch Sử</span>
           </router-link>
-          <router-link v-show="role == 0"  to="/home">
+          <router-link v-show="role == 0" to="/home">
             <span v-on:click="goDirectory">Danh bạ</span>
           </router-link>
-          <router-link v-show="role == 0"  to="/home">
+          <router-link v-show="role == 0" to="/home">
             <span v-on:click="goClose">Đóng tài khoản</span>
           </router-link>
-          <router-link v-show="role == 1"  to="/home">
+          <router-link v-show="role == 1" to="/home">
             <span v-on:click="goCreAcc">Tạo tài khoản</span>
           </router-link>
-          <router-link v-show="role == 1"  to="/home">
+          <router-link v-show="role == 1" to="/home">
             <span v-on:click="goCrePayAcc">Tạo tài khoản thanh toán</span>
           </router-link>
-          <router-link v-show="role == 1"  to="/home">
+          <router-link v-show="role == 1" to="/home">
             <span v-on:click="goRecharge">Nạp tiền</span>
           </router-link>
           <router-link v-show="role == 2" to="/home">
@@ -51,19 +51,29 @@
           </router-link>
         </div>
       </div>
-      <div v-if="selected != ''">
-        <home-page v-if="activeTab == 1" :stk="payAccount.soTaiKhoan" :sodu="payAccount.soDu">
-        </home-page>
-        <history-page v-if="activeTab == 2" :stk="payAccount.soTaiKhoan">
-        </history-page>
-        <transfer-page v-if="activeTab == 4" :stk="payAccount.soTaiKhoan" :sodu="payAccount.soDu">
-        </transfer-page>
-        <directory-page v-if="activeTab == 3" :id="id">
-        </directory-page>
-      </div>
-      <div v-else>
-        <hello-page></hello-page>
+      <div v-show="role==0">
+        <div v-if="selected != ''">
+          <home-page v-if="activeTab == 1" :stk="payAccount.soTaiKhoan" :sodu="payAccount.soDu">
+          </home-page>
+          <history-page v-if="activeTab == 2" :stk="payAccount.soTaiKhoan">
+          </history-page>
+          <transfer-page v-if="activeTab == 4" :stk="payAccount.soTaiKhoan" :sodu="payAccount.soDu">
+          </transfer-page>
+          <directory-page v-if="activeTab == 3" :id="id">
+          </directory-page>
         </div>
+        <div v-else>
+          <hello-page></hello-page>
+        </div>
+      </div>
+      <div v-show="role==1">
+        <cre-acc-page v-if="activeTab == 1"></cre-acc-page>
+        <cre-acc-pay-page v-if="activeTab == 2"></cre-acc-pay-page>
+        <recharge-page v-if="activeTab == 3"></recharge-page>
+      </div>
+      <div v-show="role==2">
+        <query-page></query-page>
+      </div>
     </div>
 
     <div v-else>
@@ -84,12 +94,15 @@
 
 
 <script>
-
-import homePageCpn from './HomePage.vue';
-import helloPageCpn from './HelloPage.vue';
-import transferPageCpn from './TransferPage.vue';
-import directoryPageCpn from './DirectoryPage.vue';
-import historyPageCpn from './HistoryPage.vue';
+  import homePageCpn from './HomePage.vue';
+  import helloPageCpn from './HelloPage.vue';
+  import transferPageCpn from './TransferPage.vue';
+  import directoryPageCpn from './DirectoryPage.vue';
+  import historyPageCpn from './HistoryPage.vue';
+  import creAccPayPageCpn from './CreAccPayPage.vue';
+  import creAccPageCpn from './CreAccPage.vue';
+  import queryPageCpn from './QueryPage.vue';
+  import rechargePageCpn from './Recharge.vue';
 
   export default {
     name: 'home',
@@ -100,7 +113,7 @@ import historyPageCpn from './HistoryPage.vue';
         payAccounts: JSON.parse(localStorage.getItem("user")).data.paymentAccount,
         userName: JSON.parse(localStorage.getItem("user")).data.user.userName,
         payAccount: {},
-        selected:'',
+        selected: '',
         activeTab: 1,
       }
     },
@@ -108,6 +121,7 @@ import historyPageCpn from './HistoryPage.vue';
     methods: {
       logOut() {
         localStorage.removeItem("user");
+        this.$router.replace("/");
       },
       onChangeSTK() {
         this.payAccounts.forEach(element => {
@@ -118,30 +132,28 @@ import historyPageCpn from './HistoryPage.vue';
         });
       },
       goHome() {
-        this.activeTab = 1
+        if (this.id != 0)
+          this.activeTab = 1
       },
       goHistory() {
-        if(this.selected != '')
+        if (this.selected != '')
           this.activeTab = 2
         else
           alert("Vui lòng chọn tài khoản thanh toán!")
       },
       goDirectory() {
-        this.activeTab = 3
+        if (this.id != 0)
+          this.activeTab = 3
       },
       goTransfer() {
-        if(this.selected != '')
-        {
-          alert("a");
+        if (this.selected != '') {
           this.activeTab = 4
-        }
-          
-        else
+        } else
           alert("Vui lòng chọn tài khoản thanh toán!")
       },
       goClose() {
-        if(this.selected != '')
-        
+        if (this.selected != '')
+
           this.activeTab = 5
         else
           alert("Vui lòng chọn tài khoản thanh toán!")
@@ -149,20 +161,24 @@ import historyPageCpn from './HistoryPage.vue';
       goCreAcc() {
         this.activeTab = 1
       },
-      goCrePayAcc(){
+      goCrePayAcc() {
         this.activeTab = 2
       },
-      goRecharge(){
+      goRecharge() {
         this.activeTab = 3
       }
     },
 
     components: {
-        homePage: homePageCpn,
-        helloPage: helloPageCpn,
-        directoryPage: directoryPageCpn,
-        historyPage: historyPageCpn,
-        transferPage: transferPageCpn
+      homePage: homePageCpn,
+      helloPage: helloPageCpn,
+      directoryPage: directoryPageCpn,
+      historyPage: historyPageCpn,
+      transferPage: transferPageCpn,
+      creAccPage: creAccPageCpn,
+      creAccPayPage: creAccPayPageCpn,
+      queryPage: queryPageCpn,
+      rechargePage: rechargePageCpn
     }
   }
   require('@/assets/css/home.css')

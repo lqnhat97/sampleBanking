@@ -46,7 +46,7 @@ import axios from 'axios'
           $("#captcha_err").show();
         } else {
           axios.post('http://192.168.0.142:8088/api/user',{
-            role:0,
+            role:1,
             userName:this.username,
             passwords:this.password
           }).then(user=>{
