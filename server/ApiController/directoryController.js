@@ -1,14 +1,15 @@
-var express = require('express');
+var express = require('express'),
     directoryRepos = require('../Repos/directoryRepos');
 var router = express.Router();
 
 router.get('/',(req,res)=>{
-    directoryRepos.getAllDirectoies().then(row => {
+    directoryRepos.getAllDirectories().then(row => {
         if (row.length > 0) {
             res.json(row);
         } else {
             res.json({
-                auth: false
+                auth: false,
+                quantity: 0
             })
         }
     }).catch(err => {
