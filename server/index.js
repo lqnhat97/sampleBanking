@@ -2,19 +2,29 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     morgan = require('morgan'),
     cors = require('cors'),
-    path = require('path');
-
+    path = require('path'),
+    verifyAccessToken = require('./Repos/authRepos').verifyAccessToken;
+    authRepos= require('./Repos/authRepos');
+    userController = require ('./ApiController/userController');
+    directoryController = require('./ApiController/directoryController');
+    accountController = require('./ApiController/accountController');
+    historyController = require('./ApiController/historyController');
+    transferController = require('./ApiController/transferController');
 var app = express();
-
+app.use(morgan('dev'));
+app.use(cors());
+app.use(bodyParser.json());
 var staticDir = express.static(
     path.resolve(__dirname, 'public')
 );
 app.use(staticDir);
 
-app.use(morgan('dev'));
-app.use(cors());
-app.use(bodyParser.json());
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
+app.use('/api/user',userController);
+app.use('/api/directory'/*,verifyAccessToken*/,directoryController);
+app.use('/api/account'/*,verifyAccessToken*/,accountController);
+app.use('/api/history'/*,verifyAccessToken*/,historyController );
+app.use('/api/transfer'/*,verifyAccessToken */,transferController);
+const port = process.env.PORT || 8088;
+app.listen(port,'0.0.0.0', () => {
     console.log(`API running on port ${port}`);
 });
