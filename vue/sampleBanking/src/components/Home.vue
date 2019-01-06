@@ -48,7 +48,8 @@
           </router-link>
         </div>
       </div>
-      <div id="tabcontain">
+      <div>
+        <home-page :stk="payAccount.soTaiKhoan" :sodu="payAccount.soDu"></home-page>
       </div>
     </div>
 
@@ -70,6 +71,9 @@
 
 
 <script>
+
+import homePageCpn from './HomePage.vue';
+
   export default {
     name: 'home',
     data() {
@@ -79,6 +83,7 @@
         payAccounts: JSON.parse(localStorage.getItem("user")).data.paymentAccount,
         userName: JSON.parse(localStorage.getItem("user")).data.user.userName,
         payAccount: {},
+        selected:'',
         activeTab: "Home",
       }
     },
@@ -99,6 +104,10 @@
           
       }
     },
+
+    components: {
+        homePage: homePageCpn
+    }
   }
   require('@/assets/css/home.css')
 </script>
