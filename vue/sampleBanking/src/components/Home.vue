@@ -22,26 +22,29 @@
         </div>
 
         <div class="lefttopnav">
-          <router-link v-show="role == 0" v-on:click="goHome" to="/home">
-            Home
+          <router-link v-show="role == 0"  to="/home">
+            <span v-on:click="goHome">Home</span>
           </router-link>
-          <router-link v-show="role == 0" v-on:click="goHistory" to="/home">
-            Lịch Sử
+          <router-link v-show="role == 0"  to="/home">
+            <span v-on:click="goTransfer">Chuyển khoản</span>
           </router-link>
-          <router-link v-show="role == 0" v-on:click="goContact" to="/home">
-            Danh bạ
+          <router-link v-show="role == 0"  to="/home">
+            <span v-on:click="goHistory">Lịch Sử</span>
           </router-link>
-          <router-link v-show="role == 0" v-on:click="goClose" to="/home">
-            Đóng tài khoản
+          <router-link v-show="role == 0"  to="/home">
+            <span v-on:click="goDirectory">Danh bạ</span>
           </router-link>
-          <router-link v-show="role == 1" to="/home">
-            Tạo tài khoản
+          <router-link v-show="role == 0"  to="/home">
+            <span v-on:click="goClose">Đóng tài khoản</span>
           </router-link>
-          <router-link v-show="role == 1" to="/home">
-            Tạo tài khoản thanh toán
+          <router-link v-show="role == 1"  to="/home">
+            <span v-on:click="goCreAcc">Tạo tài khoản</span>
           </router-link>
-          <router-link v-show="role == 1" to="/home">
-            Nạp tiền
+          <router-link v-show="role == 1"  to="/home">
+            <span v-on:click="goCrePayAcc">Tạo tài khoản thanh toán</span>
+          </router-link>
+          <router-link v-show="role == 1"  to="/home">
+            <span v-on:click="goRecharge">Nạp tiền</span>
           </router-link>
           <router-link v-show="role == 2" to="/home">
             Truy vấn ví
@@ -89,7 +92,7 @@ import helloPageCpn from './HelloPage.vue';
         userName: JSON.parse(localStorage.getItem("user")).data.user.userName,
         payAccount: {},
         selected:'',
-        activeTab: "Home",
+        activeTab: 1,
       }
     },
 
@@ -106,15 +109,38 @@ import helloPageCpn from './HelloPage.vue';
         });
       },
       goHome() {
-        activeTab = 'Home'
+        this.activeTab = 1
       },
       goHistory() {
-        activeTab = 'History'
+        if(this.selected != '')
+          this.activeTab = 2
+        else
+          alert("Vui lòng chọn tài khoản thanh toán!")
       },
-      goContact() {
-        activeTab = 'Contact'
+      goDirectory() {
+        this.activeTab = 3
       },
-
+      goTransfer() {
+        if(this.selected != '')
+          this.activeTab = 4
+        else
+          alert("Vui lòng chọn tài khoản thanh toán!")
+      },
+      goClose() {
+        if(this.selected != '')
+          this.activeTab = 5
+        else
+          alert("Vui lòng chọn tài khoản thanh toán!")
+      },
+      goCreAcc() {
+        this.activeTab = 1
+      },
+      goCrePayAcc(){
+        this.activeTab = 2
+      },
+      goRecharge(){
+        this.activeTab = 3
+      }
     },
 
     components: {
