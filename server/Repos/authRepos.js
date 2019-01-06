@@ -20,7 +20,7 @@ exports.generateAccessToken = userEntity =>{
 }
 
 exports.verifyAccessToken = (req,res,next)=>{
-    var token = req.header['x-access-token'];
+    var token = req.headers['x-access-token'];
     if(token){
         jwt.verify(token,SECRET,(err, payload)=>{
             if(err){
@@ -78,12 +78,12 @@ exports.insertAccountRefreshToken = (idUser, rfToken) => {
 
 exports.reCheckToken = (body) =>{
     return new Promise((resolve, reject) => {
-        var sql = `select refeshToken from token where idEmployees = '${body.id}'`;
+        var sql = `select refreshToken from token where idEmployees = '${body.id}'`;
         db.load(sql)
             .then(value => {
-                console.log(value[0].refeshToken);
+                console.log(value[0].refreshToken);
                 console.log(body.refresh_token);
-                if(value[0].refeshToken == body.refresh_token){
+                if(value[0].refreshToken == body.refresh_token){
                     return body.userEntity;
                 }
             })
@@ -94,7 +94,7 @@ exports.reCheckToken = (body) =>{
 
 exports.reCheckAccountToken = (body) =>{
     return new Promise((resolve, reject) => {
-        var sql = `select refeshToken from user_token where idUser = '${body.id}'`;
+        var sql = `select refreshToken from user_token where idUser = '${body.id}'`;
         db.load(sql)
             .then(value => {
                 if(value[0].refreshToken == body.refresh_token){

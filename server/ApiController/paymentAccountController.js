@@ -57,12 +57,12 @@ router.delete('/deletePaymentAccount', (req, res) => {
                     })
                 } else {
                     res.statusCode = 404;
-                    res.end('View error log on console');
+                    res.end('You still have money in your account');
                 }
             })
         } else {
             res.statusCode = 404;
-            res.end('View error log on console');
+            res.end('You only have one account');
         }
     })
 })
