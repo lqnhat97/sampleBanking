@@ -1,6 +1,6 @@
 <template>
   <div class="subContainer">
-   <form class="form-horizontal" role="form" method="POST" action="/register">
+   <form class="form-horizontal" role="form">
       <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6">
@@ -16,7 +16,7 @@
           <div class="form-group">
             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
               <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
-              <input type="text" name="name" class="form-control" id="stk" v-model="sotaikhoan" required autofocus>
+              <input type="number" name="name" class="form-control" id="stk" v-model="sotaikhoan" required autofocus>
             </div>
           </div>
         </div>
@@ -51,7 +51,7 @@
       <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6">
-          <button type="submit" class="btn btn-success"><i class="fa fa-user-plus"></i>Nạp</button>
+          <button type="submit" @click="naptien" class="btn btn-success"><i class="fa fa-user-plus"></i>Nạp</button>
         </div>
       </div>
     </form>
@@ -59,8 +59,33 @@
 </template>
 
 <script>
-  export default {
+import axios from 'axios';
 
+  export default {
+    data(){
+      return{
+        sotaikhoan:'',
+        money:''
+      }
+    },methods:{
+      naptien(e){
+        e.preventDefault();    
+        axios({
+        method: 'PUT',
+        headers: {
+        'x-access-token': JSON.parse(localStorage.getItem("user")).data.access_token,
+        'Content-Type': 'application/json'
+        },
+        url: 'http://192.168.0.142:8088/api/paymentAccount/recharge',
+        data:{
+          soTaiKhoan:this.sotaikhoan,
+          amount:this.money
+        }
+        }).then(value=>{
+          alert("Nạp tiền thành công");
+        })
+      }
+    }
   }
   require('@/assets/css/subPage.css')
 </script>

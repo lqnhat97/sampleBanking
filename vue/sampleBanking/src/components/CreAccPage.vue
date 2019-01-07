@@ -1,6 +1,6 @@
 <template>
   <div class="subContainer">
-    <form class="form-horizontal" role="form" method="POST" action="/register">
+    <form class="form-horizontal" role="form">
       <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6">
@@ -90,7 +90,7 @@
       <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6">
-          <button type="submit" class="btn btn-success"><i class="fa fa-user-plus"></i>Tạo</button>
+          <button type="submit" @click="createAccount" class="btn btn-success"><i class="fa fa-user-plus"></i>Tạo</button>
         </div>
       </div>
     </form>
@@ -98,6 +98,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
   export default {
     data() {
       return {
@@ -107,6 +109,29 @@
         email: ''
       }
     },
+    methods:{
+      createAccount(e){
+        e.preventDefault();    
+        axios({
+        method: 'POST',
+        headers: {
+        'x-access-token': JSON.parse(localStorage.getItem("user")).data.access_token,
+        'Content-Type': 'application/json'
+        },
+        url: 'http://192.168.0.142:8088/api/account/createAccount',
+        data:{
+          userName:this.username,
+          passwords:this.password,
+          email:this.email,
+          cmnd:1321,
+          dienthoai:this.phone
+        }
+        }).then(value=>{
+          alert("Tạo tài khoản thành công");
+
+      })
+      }
+    }
   }
   require('@/assets/css/subPage.css')
 </script>
