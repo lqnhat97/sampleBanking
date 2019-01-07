@@ -16,6 +16,9 @@
             <input type="password" v-model="password" class="form-control" id="inputPassword" placeholder="Mật khẩu" :class="{ 'is-invalid': submitted && !password }" >
             <div v-show="submitted && !password" class="invalid-feedback">Yêu cầu nhập mật khẩu!</div>
           </div>
+          <div class="form-group" style="text-align:right">
+            <input type="checkbox" v-model="type"> Admin
+          </div>
           <div class="g-recaptcha" data-sitekey="6LenKYcUAAAAAOIM9uXsEkZqt3k1lOsTzSaf7Iy8"></div>
             <div id="captcha_err" class="invalid-feedback">Yêu cầu nhập captcha!</div>
           <button type="submit" @click="checkCaptcha" class="btn btn-primary">Đăng nhập</button>
@@ -35,7 +38,8 @@ import axios from 'axios'
       return {
         username: '',
         password: '',
-        submitted: false
+        submitted: false,
+        type: false
       }
     },
     methods: {
@@ -46,7 +50,7 @@ import axios from 'axios'
           $("#captcha_err").show();
         } else {
           axios.post('http://192.168.0.142:8088/api/user',{
-            role:1,
+            role:this.type,
             userName:this.username,
             passwords:this.password
           }).then(user=>{
