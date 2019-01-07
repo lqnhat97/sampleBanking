@@ -69,7 +69,7 @@ router.delete('/deletePaymentAccount', (req, res) => {
 
 router.put('/recharge', (req, res) => {
     paymentAccountRepos.getPaymentAccountByStk(req.body).then(rows => {
-        paymentAccountRepos.setSoDu(req.body, parseFloat(req.query.amount) + parseFloat(rows[0].soDu)).then(() => {
+        paymentAccountRepos.setSoDu(req.body, parseFloat(req.body.amount) + parseFloat(rows[0].soDu)).then(() => {
             res.statusCode = 200;
             res.end('Done');
         }).catch(err => {

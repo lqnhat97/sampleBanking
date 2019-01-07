@@ -10,6 +10,7 @@ otplib.authenticator.options = {
 // Generate test SMTP service account from ethereal.email
 // Only needed if you don't have a real mail account for testing
 router.post('/sendOtpMail', (req, res) => {
+    console.log(req.body);
     const secret = req.body.userName;
     const token = otplib.authenticator.generate(secret);
     nodemailer.createTestAccount((err, body) => {
@@ -24,7 +25,7 @@ router.post('/sendOtpMail', (req, res) => {
         // setup email data with unicode symbols
         let mailOptions = {
             from: '"MyEBank" <vinhhoangcom2us@gmail.com>', // sender address
-            to: res.body.email, // list of receivers
+            to: req.body.email, // list of receivers
             subject: 'OTP Confirm', // Subject line
             html: '<b>Dear ' + req.body.userName + '</b> <br/> <a>This is your OTP code </a> <b>' + token + '</b> <br/>' +
                 '<a>This code will expire in 5 minute !</a> <br/>' +

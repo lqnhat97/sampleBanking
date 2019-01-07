@@ -16,7 +16,7 @@ exports.insertDirectory = (body) =>{
 }
 
 exports.updateDirectory = (body) =>{
-    var sql = `update directory set elementUserName = '${body.elementUserName}' where idRootUser='${body.idRootUser}';`
+    var sql = `update directory set elementUserName = '${body.elementUserName}' where idRootUser='${body.idRootUser}'and stkElementUser='${body.stkElementUser}';`
     return db.update(sql);
 }
 
