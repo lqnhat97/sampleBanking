@@ -96,7 +96,8 @@ import axios from 'axios';
   export default {
     data() {
       return {
-        history:''
+        history:'',
+        sotaikhoan:''
       }
     },
     props: {

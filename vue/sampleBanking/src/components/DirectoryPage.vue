@@ -15,11 +15,11 @@
               </thead>
               <tbody>
                 <tr v-for="el in directory" v-bind:key="el.stkElementUser">
-                  <td>{{el.stkElementUser}}</td>
+                  <td @click="idBiXoa = el.stkElementUser">{{el.stkElementUser}}</td>
                   <td>{{el.elementUserName}}</td>
                   <td>{{(el.idBank==777)?'iBank':((el.idBank==999)?'NBank':'PPNBank')}}</td>
                   <td>
-                    <p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs"
+                    <p data-placement="top" data-toggle="tooltip" title="Edit"><button  class="btn btn-primary btn-xs"
                         data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p>
                   </td>
                   <td>
@@ -104,6 +104,7 @@
       </div>
       <!-- /.modal-dialog -->
     </div>
+    <input v-model="idBiXoa" hidden>
   </div>
 </template>
 
@@ -115,7 +116,8 @@ import axios from 'axios';
         directory:'',
         elementUserName:'',
         addUserName:'',
-        addStk:''
+        addStk:'',
+        idBiXoa:''
       }
     },
     props: {
@@ -126,6 +128,7 @@ import axios from 'axios';
     },
     methods:{
       changeName(e){
+        console.log()
         e.preventDefault();
         axios({
         method: 'POST',
@@ -136,13 +139,15 @@ import axios from 'axios';
         url: 'http://192.168.0.142:8088/api/directory/updateDirectory',
         data:{
           elementUserName:this.elementUserName,
-          idRootUser:this.id
+          idRootUser:this.id,
+          stkElementUser:this.idBiXoa
         }
         }).then(value=>{
           
       })
       },
     deleteDirectory(e){
+      console.log(this.idBiXoa);
         e.preventDefault();
         axios({
         method: 'POST',
@@ -152,7 +157,7 @@ import axios from 'axios';
         },
         url: 'http://192.168.0.142:8088/api/directory/deleteDirectory',
         data:{
-          stkElementUser:this.elementUserName,
+          stkElementUser:this.idBiXoa,
           idRootUser:this.id
         }
         }).then(value=>{

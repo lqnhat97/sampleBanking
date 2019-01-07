@@ -32,7 +32,7 @@
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">
-                <button type="submit" class="btn btn-success"><i class="fa fa-user-plus"></i>Tạo</button>
+                <button type="submit" @click="taoTK" class="btn btn-success"><i class="fa fa-user-plus"></i>Tạo</button>
             </div>
 
         </div>
@@ -41,7 +41,32 @@
 </template>
 
 <script>
+import axios from 'axios';
+
   export default {
+      data(){
+          return{
+              sotaikhoan:''
+          }
+      },
+      methods:{
+          taoTK(e){
+        e.preventDefault();    
+        axios({
+        method: 'POST',
+        headers: {
+        'x-access-token': JSON.parse(localStorage.getItem("user")).data.access_token,
+        'Content-Type': 'application/json'
+        },
+        url: 'http://192.168.0.142:8088/api/paymentAccount/createPaymentAccount',
+        data:{
+          idUser:this.sotaikhoan
+        }
+        }).then(value=>{
+          alert("Tạo thành công");
+        })
+      }
+      }
   }
   require('@/assets/css/subPage.css')
 </script>
