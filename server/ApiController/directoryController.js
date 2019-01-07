@@ -48,6 +48,7 @@ router.post('/createDirectory', (req, res) => {
 })
 
 router.post('/updateDirectory', (req, res) => {
+    console.log(req.body);
     directoryRepos.updateDirectory(req.body).then(() => {
         res.statusCode = 200;
         res.end('Done');

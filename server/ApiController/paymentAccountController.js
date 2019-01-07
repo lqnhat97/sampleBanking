@@ -69,7 +69,7 @@ router.delete('/deletePaymentAccount', (req, res) => {
 
 router.put('/recharge', (req, res) => {
     paymentAccountRepos.getPaymentAccountByStk(req.body).then(rows => {
-        paymentAccountRepos.setSoDu(req.body, parseFloat(req.query.amount) + parseFloat(rows[0].soDu)).then(() => {
+        paymentAccountRepos.setSoDu(req.body, parseFloat(req.body.amount) + parseFloat(rows[0].soDu)).then(() => {
             res.statusCode = 200;
             res.end('Done');
         }).catch(err => {
@@ -89,6 +89,22 @@ router.get('/',(req,res)=>{
             res.statusCode = 400;
             res.end('Error');
         }
+    })
+})
+
+router.get('/InfoByStk',(req,res)=>{
+    console.log(req.body);
+    paymentAccountRepos.getAccountInfoFromStk(req.query.soTaiKhoan).then(rows=>{
+        if(rows.length>0){
+            res.json(rows);
+        }
+        else{
+            res.statusCode = 400;
+            res.end('Error');
+        }
+    }).catch(err=>{
+        res.statusCode = 500;
+        res.end('Error');
     })
 })
 module.exports = router;

@@ -26,13 +26,13 @@ router.post('/internal', async (req, res) => {
             receiver = rows[0];
         });
         if (req.body.typeFee == 0) {
-            var newSoDu = receiver.soDu + req.body.amount - req.body.transactionFee;
+            var newSoDu = parseFloat(receiver.soDu) + parseFloat(req.body.amount) - parseFloat(req.body.transactionFee);
 
-            var desSoDu = senderPaymentAccount.soDu - req.body.amount;
+            var desSoDu = parseFloat(senderPaymentAccount.soDu) - parseFloat(req.body.amount);
 
         } else if (req.body.typeFee == 1) {
-            var newSoDu = receiver.soDu + req.body.amount;
-            var desSoDu = senderPaymentAccount.soDu - req.body.amount - req.body.transactionFee;
+            var newSoDu = parseFloat(receiver.soDu) + parseFloat(req.body.amount);
+            var desSoDu = parseFloat(senderPaymentAccount.soDu) - parseFloat(req.body.amount) - parseFloat(req.body.transactionFee);
 
         }
         await paymentAccountRepos.setSoDu(receiver, newSoDu);
@@ -47,7 +47,7 @@ router.post('/internal', async (req, res) => {
                 email: value[0].email,
                 dienthoai: value[0].dienthoai
             })
-            res.status(200).send("Tranfer succeed");
+            //res.status(200).send("Tranfer succeed");
         })
     } else {
         res.status(404).send("Not enough money");
@@ -59,7 +59,7 @@ router.post('/external', async (req, res) => {
         senderPaymentAccount = rows[0];
     })
     if (senderPaymentAccount.soDu >= (parseFloat(req.body.amount) + parseFloat(req.body.transactionFee))) {
-        bankRepos.getAddressById(req.body).then(value => {
+       await bankRepos.getAddressById(req.body).then(value => {
             axios.post('http://localhost:3001/sendTransaction', {
                 address: value[0].address,
                 amount: req.body.amount,
@@ -70,22 +70,16 @@ router.post('/external', async (req, res) => {
                 accountTo: {
                     id: req.body.idReceiver,
                     idBank: req.body.idBank
-                },
+                }
             }).then(value =>{
-                console.log(value);
-                res.status(200).statusMessage('Done');
-            }).catch(err=>{
-                console.log(err);
-                res.status(400).statusMessage('Waiting for response');
+                console.log(value.data);
             })
-        }).catch(err=>{
-            console.log(err);
-            res.status(500).statusMessage('View error in the console log');
         })
         var tradingTime = moment().format("YYYY-MM-DD HH:mm:ss");
         var receiver = { soTaiKhoan: null};
-        historyRepos.insertNewHistories(receiver,senderPaymentAccount,req.body,tradingTime);
+        await historyRepos.insertNewHistories(receiver,senderPaymentAccount,req.body,tradingTime);
     }
 })
+
 
 module.exports = router;
