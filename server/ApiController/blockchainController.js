@@ -44,6 +44,17 @@ router.get('/mineBlock', function mineBlockChain() {
     setInterval(mineBlock, 5000);
 })
 
+router.post('/mineTransaction', (req,res)=>{
+    axios.post('http://localhost:3001/transactionPool').then(respone => {
+        if (respone.data.length > 0) {
+            axios.post('http://localhost:3001/mineTransaction', 
+            {address:req.body.address,
+            amount:req.body.amount
+        }, null);
+        }
+    })
+})
+
 function mineBlock() {
     axios.get('http://localhost:3001/transactionPool').then(respone => {
         if (respone.data.length > 0) {
